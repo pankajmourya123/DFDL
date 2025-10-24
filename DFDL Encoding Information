@@ -1,0 +1,57 @@
+Basics
+
+Encoding batata hai data kaise store aur interpret hota hai.
+
+Types:
+
+Character Encoding (CCSID) → UTF-8, ASCII, EBCDIC, etc.
+
+Numeric Encoding → number bytes ka order (bigEndian / littleEndian) aur float representation.
+
+⚠️ Galat encoding = galat data
+
+Example: UTF-8 ko EBCDIC samjha → text ulta-pulta.
+LittleEndian ko BigEndian samjha → 12345 → 54321 ban sakta hai.
+IIB/ACE Flow Behavior
+
+Jab message parse hota hai, IIB DFDL parser ko encoding info milti hai from transport headers
+(e.g., MQ header, HTTP header, file metadata).
+
+Parser usi ke hisaab se character & numeric bytes interpret karta hai.
+DFDL Schema Encoding Methods
+✅ A. Static Encoding
+
+Encoding schema me fix kar di jaati hai.
+
+<xs:element name="Name" type="xs:string" dfdl:encoding="UTF-8"/>
+<xs:element name="Salary" type="xs:int" dfdl:byteOrder="bigEndian"/>
+
+
+Har time wahi encoding use hogi.
+
+❌ Problem: agar actual data dusri encoding me aaye → parse error / wrong value.
+
+Dynamic Encoding (Recommended)
+
+Schema me predefined DFDL variables use hote hain:
+
+<xs:element name="Name" type="xs:string" dfdl:encoding="{dfdl:encoding}"/>
+<xs:element name="Id" type="xs:int" dfdl:byteOrder="{dfdl:byteOrder}"/>
+<xs:element name="Bonus" type="xs:float" dfdl:binaryFloatRep="{dfdl:binaryFloatRep}"/>
+
+
+Parser transport headers se actual encoding pick karega.
+
+Har message apne correct format me parse hoga.
+
+✅ IBM recommends this approach.
+Binary data:
+
+41 6D 69 74   (ASCII → "Amit")
+39 30 00 00   (12345 Little Endian)
+
+Schema Type	Encoding Set	Result
+Static (bigEndian)	Fixed → wrong assumption	❌ Id value corrupted
+Dynamic ({dfdl:byteOrder})	Uses runtime info	✅ Correct Id = 12345
+DFDL Encoding Info batata hai characters & numbers ka byte interpretation.
+Dynamic encoding {dfdl:encoding}, {dfdl:byteOrder} ensure karta hai har message sahi parse ho — recommended by IBM.
