@@ -1,0 +1,148 @@
+Normal DFDL (Open Standard)
+
+Each DFDL schema works independently.
+
+If two flows import same schema → each compiles its own copy.
+
+No shared runtime model → less efficient, more memory use.
+
+Behavior depends on the vendor implementation.
+IBM DFDL Grammar (IIB / ACE Specific)
+
+IBM ne optimization kiya → One Compiled Grammar per Application Domain.
+
+✅ Key Points:
+
+Single Compiled Grammar per Application
+
+Application ke andar jitne bhi DFDL schemas hain →
+IBM unko merge karke ek single grammar banata hai.
+
+🔹 Result: Faster parsing + Less memory usage.
+
+Isolation
+
+Har Application / Integration Server apna grammar domain banata hai.
+
+Schemas ek Application ke dusre Application me visible nahi hote.
+
+🔹 Result: Safe & isolated runtime
+Flows without Application
+
+Agar flow Application ke bahar deploy hai →
+IBM uske liye independent grammar domain banata hai (Integration Server level).
+
+Schema Merge
+
+Agar ek Application ke multiple flows different schemas use karte hain →
+IBM sab ko merge karke ek combined grammar banata hai.
+
+Same schema reused in multiple flows → compiled once, reused everywhere
+Example
+
+Application: BankingApp
+
+Flow-1 → CustomerDFDL.xsd
+
+Flow-2 → TransactionDFDL.xsd
+
+Flow-3 → CustomerDFDL.xsd (same as Flow-1)
+
+Runtime:
+👉 IBM merges both schemas → single compiled grammar.
+✔️ CustomerDFDL used once
+✔️ Shared by all flows → Fast & Memory Efficient
+IBM DFDL Grammar = single compiled, shared, and isolated schema model per Application → fast, efficient, and well-governed runtime
+DFDL Grammar — Application vs Independent Flows (Short Notes)
+🔹 1. Case 1 – Inside Application
+
+Example: PaymentApp
+
+Flow-1 → CardTxnDFDL.xsd
+
+Flow-2 → UPITxnDFDL.xsd
+
+IBM Behavior:
+👉 IBM sab schemas ko merge karke ek single compiled grammar banata hai per Application.
+
+Result:
+
+Grammar shared among all flows in the same App.
+
+Faster parsing, less memory.
+
+Grammar isolated → dusre Applications use nahi kar sakte.
+
+✅ Domain: Application-level grammar domain
+
+Case 2 – Outside Application (Independent Flows)
+
+Example:
+
+Flow-A → InvoiceDFDL.xsd
+
+Flow-B → ReceiptDFDL.xsd
+
+Deployed directly to Integration Server (no App).
+
+IBM Behavior:
+👉 IBM unhe ek Integration Server-level grammar domain ke andar merge karta hai.
+
+Result:
+
+Ek combined grammar for all standalone flows.
+
+Separate from any Application grammar.
+
+✅ Domain: Integration Server-level grammar domain
+
+Application → Grammar per Application.
+Standalone Flows → Grammar per Integration Server.
+In both cases, schemas merge → ek single compiled grammar per domain ⚡
+Two Ways to Deploy Flows
+✅ A. Inside an Application
+
+Create an Application (e.g., PaymentApp).
+
+Add:
+
+.msgflow (message flows)
+
+.dfdl.xsd (DFDL schemas)
+
+.esql (Compute logic)
+
+Deploy the whole Application as one unit.
+
+Application = Container / Boundary for all related artifacts.
+
+🟢 Grammar Level: Application-level compiled grammar
+🟢 Benefits:
+
+Organized & isolated
+
+Reusable within same Application
+
+Better governance
+Directly to Integration Server (Without Application)
+
+No Application created.
+
+Directly deploy .msgflow & its resources to Integration Server.
+
+Useful for small / micro flows or quick testing.
+
+IBM kehta hai:
+
+“Anything not in an Application exists in its own Integration Server level domain.”
+
+🟢 Grammar Level: Integration Server-level grammar domain
+🟢 Benefits:
+
+Simple setup
+
+Faster for lightweight projects
+
+No Application overhead
+Flows IBM IIB/ACE me Application ke andar ya direct Integration Server pe deploy ho sakte hain.
+Grammar dono case me banta hai — bas scope alag hota hai
