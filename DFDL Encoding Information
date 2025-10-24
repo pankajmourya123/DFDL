@@ -55,3 +55,69 @@ Static (bigEndian)	Fixed → wrong assumption	❌ Id value corrupted
 Dynamic ({dfdl:byteOrder})	Uses runtime info	✅ Correct Id = 12345
 DFDL Encoding Info batata hai characters & numbers ka byte interpretation.
 Dynamic encoding {dfdl:encoding}, {dfdl:byteOrder} ensure karta hai har message sahi parse ho — recommended by IBM.
+
+DFDL Versioning & Keywords
+
+Normal DFDL (Standard Spec)
+
+Defined by Open Grid Forum (OGF).
+
+Focus: data parsing & serialization only.
+
+No feature to store version, author, or deployment info inside schema.
+
+You can add only generic <xs:documentation> (not machine-readable).
+
+<xs:annotation>
+  <xs:documentation>Customer Data Schema</xs:documentation>
+</xs:annotation>
+
+
+➡️ Limitation: No automatic tracking of schema metadata.
+IBM DFDL (IIB/ACE Extensions)
+
+IBM ne keywords mechanism add kiya hai — allows embedding metadata inside schema comments.
+
+Syntax:
+
+<!-- $MQSI Version=1.2 MQSI$ -->
+<!-- $MQSI Author=Pankaj MQSI$ -->
+
+
+Toolkit automatically reads these values.
+
+BAR deployment ke baad, IBM Integration Toolkit me dikhta hai:
+
+Version
+
+Author
+
+Deployment Time
+
+Modification Time
+
+➡️ Fayda:
+Easy tracking of
+✔️ Schema version
+✔️ Author info
+✔️ Deployment details
+✔️ Audit / Traceability
+
+Example
+
+Schema: CustomerRecord.dfdl.xsd
+
+<!-- $MQSI Version=2.1 MQSI$ -->
+<!-- $MQSI Author=Pankaj MQSI$ -->
+
+
+Toolkit me dikhega:
+
+Version: 2.1
+
+Author: Pankaj
+
+Deployment: 12-Sep-2025 14:30
+
+Normal DFDL → sirf data structure ke liye.
+IBM DFDL → data structure + metadata (Version, Author, Deployment info).
