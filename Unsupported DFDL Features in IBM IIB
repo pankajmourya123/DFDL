@@ -1,0 +1,172 @@
+
+
+🚫 IBM DFDL Unsupported Features (v10.1.0.6)
+
+Note:
+IBM Integration Bus / ACE ne DFDL 1.0 specification ka full implementation nahi kiya.
+Kuch features, properties, functions, aur annotations IBM me supported nahi hain.
+Yeh features mostly rare use cases ke liye hote hain, jaise bidirectional text, stop values, ya complex calendar/timezone handling.
+
+
+---
+
+🔹 1. Unsupported Property Enumerations
+
+dfdl:textBiDi="yes" → Bidirectional text (Arabic/Hebrew) not supported.
+
+dfdl:occursCountKind="stopValue" → Arrays terminated by stop value not supported.
+
+dfdl:binaryCalendarRep="packed" → Packed binary calendar representation not supported.
+
+dfdl:floating="yes" → Floating elements not supported.
+
+dfdl:lengthKind="endOfParent" → Element ending at parent’s end not supported.
+
+dfdl:assert testKind="pattern" → Pattern-based assertions not supported.
+
+dfdl:discriminator testKind="pattern" → Pattern-based discriminators not supported.
+
+dfdl:separatorSuppressionPolicy="trailingEmptyStrict" → Not supported.
+
+dfdl:encodingErrorPolicy="replace" → Encoding error policy “replace” not supported.
+
+dfdl:textZonedSignStyle="asciiTandemModified" → Not supported.
+
+dfdl:bitOrder="leastSignificantBitFirst" → LSB first bit order not supported.
+
+dfdl:escapeCharacterPolicy="delimiters" → Not supported.
+
+
+
+---
+
+🔹 2. Unsupported Properties
+
+dfdl:hiddenGroupRef
+
+dfdl:inputValueCalc
+
+dfdl:outputValueCalc
+
+
+👉 Runtime calculated values or hidden groups are not supported.
+
+
+---
+
+🔹 3. Unsupported Functions (DFDL Expression Language)
+
+fn:count
+
+fn:exactly-one
+
+fn:name
+
+fn:local-name
+
+fn:namespace-uri
+
+dfdl:contentLength
+
+dfdl:valueLength
+
+dfdl:testBit, dfdl:setBits
+
+dfdl:occursIndex
+
+dfdl:checkConstraints
+
+dfdl:timeZoneFromDate, dfdl:timeZoneFromDateTime, dfdl:timeZoneFromTime
+
+All DFDL constructor functions
+
+dfdl:decodeDFDLentities, dfdl:encodeDFDLentities, dfdl:containsDFDLentities
+
+
+⚠️ IBM DFDL supports only basic XPath and arithmetic functions — advanced ones not supported.
+
+
+---
+
+🔹 4. Unsupported Annotations
+
+dfdl:defineVariable with external="true"
+
+dfdl:newVariableInstance
+
+dfdl:assert on global element/simple type
+
+dfdl:discriminator on global element/simple type
+
+
+👉 External or dynamic variables, and pattern-based assertions/discriminators are restricted.
+
+
+---
+
+🔹 5. Other Restrictions and Behavioral Differences
+
+Default values not supported during parsing.
+
+During serialization, if element is a choice, only first branch default used.
+
+dfdl:lengthKind="implicit" may end early if higher-level delimiter found.
+
+BOM (Byte Order Mark) is not auto-detected, must be explicitly modeled.
+
+Only one xs:appinfo per xs:annotation allowed.
+
+dfdl:lengthKind="prefixed" cannot reference a type that also has prefixed.
+
+dfdl:lengthKind="pattern" not allowed with binary data.
+
+Missing/empty/absent element distinction not as per spec.
+
+Nil values cannot include DFDL character entities for binary elements.
+
+Decimal & calendar restrictions:
+
+dfdl:textStandardDecimalSeparator cannot be a list.
+
+dfdl:textStandardExponentRep must be one character.
+
+@ not allowed in dfdl:textNumberPattern.
+
+_ not allowed in dfdl:calendarLanguage.
+
+dfdl:calendarTimeZone cannot be empty or Olson format.
+
+
+Packed binary numbers must have length and alignment multiple of 4 bits.
+
+All text elements align on 8-bit boundary (no non-8-bit encodings).
+
+dfdl:assert and dfdl:discriminator messages cannot be expressions.
+
+Path validation in expressions is incomplete (avoid ambiguous array refs).
+
+%WSP*; entity classes incorrectly allowed; use %WSP+; instead.
+
+dfdl:binaryBooleanTrueRep cannot be empty string.
+
+fn:concat limited to four arguments.
+
+Escape scheme applied after empty value delimiter policy during serialization.
+
+
+
+---
+
+💡 Summary for Developers
+
+✅ IBM DFDL supports common industrial formats: CSV, fixed-length, COBOL copybook, ISO8583.
+🚫 Avoid rare constructs like stopValue, BiDi text, packed calendars, or pattern-based checks.
+⚙️ Always test schema deployment — some features may compile but fail at runtime.
+
+
+---
+
+Short Recap:
+
+> DFDL Spec = Full buffet 🍱
+IBM DFDL = Buffet ka practical subset (sirf industry-use dishes 🥗)
