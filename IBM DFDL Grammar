@@ -146,3 +146,53 @@ Faster for lightweight projects
 No Application overhead
 Flows IBM IIB/ACE me Application ke andar ya direct Integration Server pe deploy ho sakte hain.
 Grammar dono case me banta hai — bas scope alag hota hai
+
+Flows Deployment in IBM IIB / ACE — Short Notes
+
+🔹 1. Two Ways to Deploy Flows
+
+✅ A. Inside an Application
+
+Create an Application (e.g., PaymentApp).
+
+Add:
+
+.msgflow (message flows)
+
+.dfdl.xsd (DFDL schemas)
+
+.esql (Compute logic)
+
+
+Deploy the whole Application as one unit.
+
+Application = Container / Boundary for all related artifacts.
+
+
+🟢 Grammar Level: Application-level compiled grammar
+🟢 Benefits:
+
+Organized & isolated
+
+Reusable within same Application
+
+Better governance
+
+
+
+---
+
+✅ B. Directly to Integration Server (Without Application)
+
+No Application created.
+
+Directly deploy .msgflow & its resources to Integration Server.
+
+Useful for small / micro flows or quick testing.
+
+
+IBM kehta hai:
+
+> “Anything not in an Application exists in its own Integration Server level domain.”
+Flows IBM IIB/ACE me Application ke andar ya direct Integration Server pe deploy ho sakte hain.
+Grammar dono case me banta hai — bas scope alag hota hai
