@@ -170,3 +170,86 @@ Short Recap:
 
 > DFDL Spec = Full buffet 🍱
 IBM DFDL = Buffet ka practical subset (sirf industry-use dishes 🥗)
+
+
+
+---
+
+⚙️ IBM DFDL Implementation-Specific Limits
+
+Note:
+DFDL specification ek open standard hai, par IBM Integration Bus / ACE ne apne parser ke performance aur stability ke liye kuch fixed limits rakhe hain.
+Agar data in limits se bada hua — parsing ya serialization fail ho jayegi.
+
+Unsupported Features → “Feature hi nahi bana IBM me.”
+🔹 Implementation Limits → “Feature bana hai, par limit ke andar hi chalega.”
+
+---
+
+🔹 1. Maximum Digits in a Number → 1000 Digits
+
+IBM parser ek single numeric value me maximum 1000 digits tak allow karta hai.
+Agar number 1001 digits ka hai → error milega.
+
+Example:
+✅ 1234567890 → 10 digits (OK)
+✅ 999... (1000 digits) → OK
+❌ 111... (1001 digits) → Parser error
+
+
+---
+
+🔹 2. Maximum Numeric Precision → 33 Digits
+
+Decimal ya integer numbers me precision (significant digits) 33 tak limited hai.
+Agar 34+ digits huye, IBM undefined behavior dikha sakta hai (error/truncate/crash).
+
+Example:
+✅ 123456789012345678901234567890123 → 33 digits (OK)
+❌ 12345678901234567890123456789012345 → 35 digits (Not supported)
+
+
+---
+
+🔹 3. Maximum Array Elements → 2,147,483,647 (≈ 2.1 Billion)
+
+Agar tu maxOccurs="unbounded" use kare, IBM maximum 2.1 billion elements tak handle karega.
+Usse zyada → parser error ya out-of-memory.
+
+Example:
+✅ 1 billion records → parse hoga (slow but OK)
+❌ 3 billion records → error (limit exceed)
+
+
+---
+
+🔹 4. Fractional Seconds → Up to Milliseconds (3 digits)
+
+IBM DFDL sirf milliseconds (3 decimal places) tak fractional seconds samajhta hai.
+Microseconds (.123456) ya nanoseconds ignore ho jate hain.
+
+Example:
+✅ 2025-09-12T10:23:45.123 → OK
+❌ 2025-09-12T10:23:45.123456 → IBM ignore karega .456
+
+
+---
+
+💡 Why These Limits Exist
+
+Parser ko overflow ya crash se bachane ke liye
+
+Performance aur memory efficiency maintain karne ke liye
+
+DFDL standard ke practical subset ko follow karne ke liye
+
+
+
+---
+
+Short Recap:
+
+> 1000 digits max 🧮
+33-digit precision limit 🔢
+2.1 billion array limit 📦
+Millisecond accuracy
