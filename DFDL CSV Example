@@ -1,0 +1,141 @@
+
+🧩 DFDL CSV Example — Short Notes
+
+🧠 Step 1: Sample Data
+
+John,25,1999-01-01,Y,50000
+Raj,30,1994-02-02,N
+Ana,28,1996-03-03,Y,45000
+
+🧱 Step 2: Logical Structure
+
+Root → employees
+
+Repeating element → employeeRecord
+
+name → string
+
+age → int
+
+dob → date (YYYY-MM-DD)
+
+permanent → boolean (Y/N)
+
+salary → decimal (optional)
+
+
+
+
+
+---
+
+⚙️ Step 3: Physical Rules
+
+Property	Value
+
+Field Separator	,
+Record Separator	%NL;
+Separator Policy	trailingEmpty
+Boolean Mapping	Y→true, N→false
+Representation	text
+Length Kind	delimited
+Encoding	{dfdl:encoding} (dynamic)
+
+
+
+---
+
+🧩 Step 4: defaults.xsd
+
+Defines reusable default format:
+
+<dfdl:defineFormat name="myDefaults">
+  <dfdl:format representation="text"
+               encoding="{dfdl:encoding}"
+               textTrim="none"/>
+</dfdl:defineFormat>
+
+
+---
+
+🏗 Step 5: employees.xsd
+
+Main schema (imports defaults + IBM extension):
+
+<xs:element name="employees" ibm:dfdlMessage="true">
+  <xs:complexType>
+    <xs:sequence dfdl:separator="%NL;">
+      <xs:element name="employeeRecord" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence dfdl:separator="," 
+                       dfdl:separatorSuppressionPolicy="trailingEmpty">
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="age" type="xs:int"/>
+            <xs:element name="dob" type="xs:date" dfdl:textDatePattern="YYYY-MM-DD"/>
+            <xs:element name="permanent" type="xs:boolean"
+                        dfdl:textBooleanTrueRep="Y"
+                        dfdl:textBooleanFalseRep="N"/>
+            <xs:element name="salary" type="xs:decimal" minOccurs="0"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+
+---
+
+🧾 Step 6: Expected Parsed Output
+
+<employees>
+  <employeeRecord>
+    <name>John</name>
+    <age>25</age>
+    <dob>1999-01-01</dob>
+    <permanent>true</permanent>
+    <salary>50000</salary>
+  </employeeRecord>
+  <employeeRecord>
+    <name>Raj</name>
+    <age>30</age>
+    <dob>1994-02-02</dob>
+    <permanent>false</permanent>
+  </employeeRecord>
+</employees>
+
+
+---
+
+🧰 Step 7: Test in IIB/ACE
+
+1. Create project → import both XSDs
+
+
+2. Validate schemas
+
+
+3. Open DFDL Test Perspective
+
+
+4. Paste CSV input → Run Parse
+
+
+5. Inspect message tree
+
+
+
+
+---
+
+⚠️ Quick Tips
+
+Use {dfdl:encoding} for dynamic encoding
+
+Keep separator on <sequence>
+
+Avoid unsupported DFDL features
+
+ibm:dfdlMessage="true" marks message root for IIB
+
+
