@@ -1,0 +1,104 @@
+
+🧠 DFDL Data Types — Short Notes
+
+🔹 1. Base Concept
+
+DFDL apne data types define nahi karta.
+
+Ye XML Schema (XSD) ke data types ka subset use karta.
+
+DFDL ka role: Physical data (binary/text) → Logical model (XSD type) → Message tree (ESQL type)
+
+
+
+---
+
+🔹 2. Data Type Flow (IBM IIB / ACE)
+
+Layer	Description
+
+Physical Data	File, binary, CSV, COBOL, etc.
+DFDL Parser	Converts physical → logical (XSD types)
+Message Tree	Logical → ESQL types (for flows, mapping, compute nodes)
+
+
+
+---
+
+🔹 3. Common Type Mappings
+
+Source (COBOL/Text)	DFDL Logical Type	XML Schema Type	IIB/ESQL Type
+
+PIC 9(19)	Integer	xs:nonNegativeInteger	DECIMAL
+Text Name	String	xs:string	CHARACTER
+Amount (12.34)	Decimal	xs:decimal	DECIMAL
+Date (2025-09-17)	Date	xs:date	DATE
+Boolean (Y/N)	Boolean	xs:boolean	BOOLEAN
+
+
+
+---
+
+🔹 4. Automatic Casting (Supported)
+
+Only from xs:string → Serializer can auto-convert CHARACTER → text field.
+
+Useful for simple CSV / text-based DFDL parsing.
+
+
+
+---
+
+🔹 5. Unsupported Types ❌
+
+Type	Why Problem
+
+INTERVAL	No DFDL equivalent
+BIT	Not mapped to XML Schema types
+
+
+🧩 Error Example:
+BIPxxxx: Serialization error: ESQL type INTERVAL not supported in DFDL schema
+
+
+---
+
+🔹 6. Example (CSV → XML Tree)
+
+Input:
+
+1001, Pankaj, 5000.75, 2025-09-17
+
+Schema:
+
+<xs:element name="Employee">
+  <xs:complexType>
+    <xs:sequence dfdl:separator="," dfdl:terminator="%NL;">
+      <xs:element name="Id" type="xs:int"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Salary" type="xs:decimal"/>
+      <xs:element name="JoinDate" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+Parsed Message Tree:
+
+Employee
+ ├── Id        = 1001        (INTEGER)
+ ├── Name      = "Pankaj"    (CHARACTER)
+ ├── Salary    = 5000.75     (DECIMAL)
+ └── JoinDate  = 2025-09-17  (DATE)
+
+
+---
+
+🔹 7. Key Takeaways 💡
+
+✅ DFDL types = XML Schema types
+✅ IIB internally converts them → ESQL types
+✅ INTERVAL & BIT not supported
+✅ Constraints (e.g., xs:nonNegativeInteger) auto-validate data
+✅ Importers (COBOL / C) auto-map correct DFDL types
+
+
