@@ -1,0 +1,62 @@
+
+📘 DFDL Reference – Short Notes
+
+🔹 Purpose
+
+DFDL Reference = IBM ka detailed guide
+jo DFDL schema ke rules, objects, annotations, expressions, aur variables samjhata hai.
+
+
+---
+
+🔹 Key Sections
+
+Concept	Description
+
+Example Schema	Chhota XSD with DFDL annotations — dikhaata hai DFDL structure kaisa hota hai.
+Predefined Variables	Built-in variables (e.g., current length, position, encoding) for parsing control.
+DFDL Expressions	XPath-like expressions to calculate lengths or conditions dynamically.
+DFDL Objects	Building blocks: elements, simple types, complex types, model groups, etc.
+DFDL Annotations	Define actual parsing rules (delimiter, length, encoding, justification).
+Scoping	Rules ke valid area define karta hai (schema-level, type-level, element-level).
+Points of Uncertainty	Parser ambiguity (e.g., multiple choices, similar delimiters) handle karne ke rules.
+
+
+
+---
+
+🔹 Example
+
+Input CSV:
+
+101,Pankaj,25000
+102,Raj,30000
+
+DFDL Schema Snippet:
+
+<xs:element name="Employee" dfdl:lengthKind="delimited" dfdl:separator="," 
+  xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Id" type="xs:int"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Salary" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+🟢 dfdl:separator="," → defines comma as delimiter (annotation).
+
+
+---
+
+🔹 Summary
+
+Normal XSD → only logical structure
+
+DFDL Schema → logical structure + physical format rules (annotations)
+
+Reference Section → explains all DFDL rules, objects & parsing logic.
+
+
+
