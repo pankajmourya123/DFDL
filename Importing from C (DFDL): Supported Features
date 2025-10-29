@@ -390,6 +390,10 @@ After import, manually review generated DFDL: alignment, dfdl:byteOrder, dfdl:al
 
 > C headers = common source of binary format definitions. Importer gives a good starting DFDL schema, but always preprocess C and manually verify/tune the generated schema because importer has practical limitations.
 
-
+If your input is text/CSV/flat files → forget C.
+If input is binary & defined by C structs → C importer can save time (but still needs cleanup).
+IBM ne ek shortcut feature diya hai —
+agar tera data C struct ke form me defined hai,
+toh tu manually DFDL likhne ki jagah C header import kar sakta hai.
 
 
