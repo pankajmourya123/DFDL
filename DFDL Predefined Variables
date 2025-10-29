@@ -1,0 +1,44 @@
+
+
+🧠 DFDL Predefined Variables (Short Notes)
+
+Variable	Meaning	Purpose	Example
+
+encoding	Character set identifier (CCSID)	Batata hai data text kis format mein hai (UTF-8, ASCII, EBCDIC)	UTF-8 → CCSID 1208
+byteOrder	Byte arrangement of multi-byte numbers	Kaunsa byte pehle aayega — Big Endian (MSB first) ya Little Endian (LSB first)	0x12345678 → Little Endian → bytes: 78 56 34 12
+binaryFloatRep	Floating-point representation type	Float values ko kaise represent karna hai	IEEE 754 (modern), IBM Hex Float (old mainframes)
+
+
+
+---
+
+⚙️ Kaise Set Hote Hain
+
+Automatically set by IIB/ACE from:
+
+Transport headers (e.g., MQMD, HTTP)
+
+DFDL schema properties (dfdl:byteOrder, etc.)
+
+Node configuration / ESQL parameters
+
+
+
+
+---
+
+💡 Real Use
+
+Input side → Parser inhe use karta hai bitstream ko correctly interpret karne ke लिए.
+
+Output side → Serializer inhe use karta hai correct binary/text generate karne के लिए.
+
+ESQL (PARSE / ASBITSTREAM) → Tum manually CCSID / ENCODING pass kar sakte ho.
+
+
+
+---
+
+👉 Simple Line Summary:
+
+> encoding, byteOrder, aur binaryFloatRep = bridge between transport layer & DFDL schema, automatically handle hota hai data interpretation ke liye.
