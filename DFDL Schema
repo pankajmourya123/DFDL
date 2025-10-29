@@ -82,3 +82,75 @@ DFDL = XSD + Physical Format Rules
 Example → "int=5;float=-7.1E8" gets parsed to a clean XML tree using annotations.
 
 
+📘 DFDL – Separator vs Fixed-Length Models (Short Notes)
+
+🔹 Concept
+
+DFDL data parsing do major models pe based hota hai:
+
+Model Type	Meaning	Example	DFDL Rule
+
+Delimited Model	Data fields separated by a symbol (comma, pipe, tab, etc.)	1001,Pankaj,25	dfdl:separator=","
+Fixed-Length Model	Each field ka fixed size hota hai, separator nahi	100125Pankaj  	dfdl:length="N" ya dfdl:lengthKind="explicit"
+Hybrid Model	Mix of both (some fields fixed, some delimited)	1001,25Pankaj	Combination of both annotations
+
+
+
+---
+
+🔹 Example 1 – Delimited (CSV Style)
+
+Input:
+
+1001,Pankaj,25
+1002,Raj,30
+
+DFDL Snippet:
+
+<xs:sequence dfdl:separator="," dfdl:lengthKind="delimited">
+  <xs:element name="Id" type="xs:int"/>
+  <xs:element name="Name" type="xs:string"/>
+  <xs:element name="Age" type="xs:int"/>
+</xs:sequence>
+
+
+---
+
+🔹 Example 2 – Fixed-Length
+
+Input:
+
+100125Pankaj   100230Raj
+
+DFDL Snippet:
+
+<xs:sequence>
+  <xs:element name="Id" type="xs:int" dfdl:length="4"/>
+  <xs:element name="Age" type="xs:int" dfdl:length="2"/>
+  <xs:element name="Name" type="xs:string" dfdl:length="10"/>
+</xs:sequence>
+
+
+---
+
+🔹 Summary
+
+Case	Parsing Type	Annotation
+
+Separator present	Delimited	dfdl:separator
+Separator absent	Fixed-Length	dfdl:length / dfdl:lengthKind
+Both types present	Hybrid	Combination of both
+
+
+
+---
+
+🟢 In short:
+
+> Separator → Delimited Model
+No Separator → Fixed-Length Model
+Mix → Hybrid Model
+
+
+
+
