@@ -1,0 +1,84 @@
+
+
+📘 DFDL Schema Breakdown – Short Notes
+
+🔹 Purpose
+
+DFDL annotations define how data (text/binary) should be parsed and serialized using rules inside an XSD structure.
+
+
+---
+
+🔹 Example Schema (Simplified)
+
+<xs:complexType name="myNumbers">
+  <xs:sequence 
+      dfdl:separator=";" 
+      dfdl:encoding="ascii">
+
+    <xs:element name="myInt" type="xs:int"
+        dfdl:representation="text"
+        dfdl:textNumberRep="standard"
+        dfdl:encoding="ascii"
+        dfdl:lengthKind="delimited"
+        dfdl:initiator="int=" />
+
+    <xs:element name="myFloat" type="xs:float"
+        dfdl:representation="text"
+        dfdl:textNumberRep="standard"
+        dfdl:encoding="ascii"
+        dfdl:lengthKind="delimited"
+        dfdl:initiator="float=" />
+
+  </xs:sequence>
+</xs:complexType>
+
+
+---
+
+🔹 Breakdown & Meaning
+
+Property	Description
+
+dfdl:separator=";"	Elements separated by semicolon (;)
+dfdl:initiator="int=" / "float="	Start marker before each element
+dfdl:representation="text"	Data stored in text form (not binary)
+dfdl:textNumberRep="standard"	Numbers follow normal format (e.g., 5, -7.1E8)
+dfdl:lengthKind="delimited"	Element ends with delimiter (no fixed length)
+dfdl:encoding="ascii"	Data encoded using ASCII
+
+
+
+---
+
+🔹 Input Example
+
+int=5;float=-7.1E8
+
+🔹 Output after DFDL Parsing
+
+<myNumbers>
+   <myInt>5</myInt>
+   <myFloat>-7.1E8</myFloat>
+</myNumbers>
+
+
+---
+
+🔹 Summary
+
+Concept	Explanation
+
+XSD elements	Define logical structure (like myInt, myFloat)
+DFDL annotations	Define physical format (delimiter, encoding, initiator, etc.)
+Result	Parser converts raw text → structured XML tree
+
+
+
+---
+
+🟢 In short:
+DFDL = XSD + Physical Format Rules
+Example → "int=5;float=-7.1E8" gets parsed to a clean XML tree using annotations.
+
+
