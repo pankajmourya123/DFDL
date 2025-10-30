@@ -1,0 +1,66 @@
+
+⚙️ DFDL Parsing & Serialization (Automatic vs Manual)
+
+Type	Control	Description	Example
+
+Automatic	By Node	Input/Output nodes (MQInput, FileInput, HTTPInput, MQOutput, etc.) khud parsing & serialization handle karte hain.	MQInput → DFDL parser → Message Tree <br> MQOutput → Message Tree → Bitstream
+Manual	By Code	ESQL ya JavaCompute node me programmer manually parsing / serialization karta hai.	CREATE ... PARSE() → Bytes → Tree <br> ASBITSTREAM() → Tree → Bytes
+
+
+
+---
+
+🔹 Input / Output Node (Automatic)
+
+Node Type	Operation	Action
+
+Input Node	Parsing	Raw bitstream ko schema ke hisaab se parse karke Message Tree banata hai
+Output Node	Serialization	Message Tree ko wapas bitstream (bytes) me convert karta hai
+
+
+✅ Example:
+MQInput node par binary data aaya → DFDL selected → Automatically parsed into tree
+MQOutput node → Same schema → Automatically serialized into bytes
+
+
+---
+
+🔹 ESQL / API (Manual)
+
+ESQL Statement	Direction	Meaning
+
+CREATE ... PARSE(BLOB ... CCSID ENCODING)	Bytes → Tree	Manually parse bytes into Message Tree
+ASBITSTREAM(OutputRoot ... ENCODING CCSID)	Tree → Bytes	Manually serialize tree into bitstream (for logs, DB, etc.)
+
+
+
+---
+
+⚖️ Difference (1-Line Summary)
+
+Automatic (Node-Based)	Manual (Code-Based)
+
+Flow node khud handle karta hai	Developer explicitly control leta hai
+Less control, faster integration	Full control, custom logic possible
+
+
+
+---
+
+🧩 Example Scenario
+
+Step	Description
+
+1️⃣	MQInput node → Automatic Parsing
+2️⃣	ESQL (ASBITSTREAM) → Manual Serialization for logging
+3️⃣	MQOutput node → Automatic Serialization
+
+
+
+---
+
+👉 Summary Line:
+
+> Automatic = Node sambhalta hai 💡
+Manual = Developer handle karta hai (for custom parse/serialize) 🧠
+
