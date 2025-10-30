@@ -1,0 +1,145 @@
+
+🧮 DFDL Expressions (Dynamic Properties)
+
+Topic	Description
+
+Purpose	Jab DFDL property (length, occursCount, separator, encoding, etc.) runtime data se decide hoti hai, tab use hota hai DFDL Expression.
+Syntax	Expression curly braces {} ke andar likha jata hai.
+Language	XPath 2.0 subset use karta hai (e.g. ../count, sum(), string-length(), etc.)
+Use Case	Dynamic (data-driven) parsing or serialization ke liye.
+
+
+
+---
+
+🔹 Example 1 — Occurs Count (Dynamic Array Size)
+
+Message:
+
+count=3;val=11;val=22;val=33
+
+Property:
+
+dfdl:occursCount="{ ../count }"
+
+➡️ val element 3 times repeat hoga, kyunki count=3.
+
+
+---
+
+🔹 Example 2 — Dynamic Separator
+
+Message:
+
+sep=|;data=A|B|C
+
+Property:
+
+dfdl:separator="{ ../sep }"
+
+➡️ Separator value message ke andar se li gayi (yaha |).
+
+
+---
+
+🔹 Example 3 — Input / Output Value Calc
+
+Type	Description
+
+inputValueCalc	Parsing ke time ek field ka value dusre se calculate karna.
+outputValueCalc	Serialization ke time auto-generate karna (e.g. checksum, total, length).
+
+
+Example:
+
+dfdl:outputValueCalc="{ sum(../val) }"
+
+➡️ Checksum field = sum of all val elements.
+
+
+---
+
+🧠 Summary
+
+Static DFDL	DFDL Expressions
+
+Fixed format	Dynamic format
+Predefined values	Data-driven properties
+Simple use	Powerful runtime parsing
+
+
+
+---
+
+👉 One-Line Recap:
+
+> DFDL Expressions = {XPath} logic jo schema ko dynamic & intelligent banata hai 💡
+
+
+
+
+---
+
+⚙️ DFDL Expressions — Property-wise Short Notes
+
+Property	Purpose / Use	Example Expression	Explanation
+
+assert::	Runtime condition check karta hai (validation).	{ ../countryCode = 'IN' }	Agar condition false hui → parsing fail.
+
+binaryFloatRep::	Floating-point number ka representation choose karta hai (IEEE / IBM).	{ ../floatType }	Data me hi float type diya ho to uske base pe decide karega.
+
+byteOrder	Endianness ::decide karta hai (Big / Little Endian).	{ ../order }	Agar data me "LE" hai → little endian parsing.
+
+discriminator	::Choice me branch selection karta hai.	{ ../type = 1 }	Agar type=1 → int parse karo; type=2 → float.
+
+encoding::	Text encoding runtime se set karta hai.	{ ../enc }	UTF-8 / ASCII jaise values data ke andar se lega.
+
+escapeCharacter::	Separator ko escape karne ke liye runtime char.	{ ../escChar }	Example: \, ko normal comma treat karna.
+
+escapeEscapeCharacter	::Escape char khud aaye to uske liye replacement char.	{ ../escEsc }	Example: \\ represent karta hai ek single \.
+
+initiator	::Field ke start ka marker runtime pe decide hota hai.	{ ../prefix }	Example: int=5 ya num=5.
+inputValueCalc	::Parsing ke dauran field ka value dusre element se calculate karna.	{ ../price * ../qty }	Derived value create karta hai during parse.
+
+length	::Field length runtime me diya ho.	{ ../len }	Example: len=5 → 5 characters read karega.
+
+occursCount	::Array ka size runtime data se decide karna.	{ ../count }	Example: count=3 → 3 elements parse honge.
+
+outputNewLine	::Serialization ke time newline format runtime se set karna.	{ ../nl }	Example: LF / CRLF.
+
+outputValueCalc	::Serialization ke time auto-generated field banana.	{ sum(../val) }	Example: checksum ya total field.
+
+separator	Delimited ::data ka separator runtime data se lena.	{ ../sep }	Example: sep=
+
+terminator	::Field ke end ka marker runtime se decide karna.	{ ../term }	Example: newline \n ya semicolon ;.
+
+textBooleanTrueRep::	“True” value ka representation runtime decide karna.	{ ../trueVal }	Example: “YES” or “1”.
+
+textBooleanFalseRep	::“False” value ka representation runtime decide karna.	{ ../falseVal }	Example: “NO” or “0”.
+
+textStandardDecimal::Separator	Decimal separator runtime data se set karna.	{ ../decSep }	Example: , (3,14) or . (3.14).
+
+textStandardExponentCharacter	::Exponent character runtime decide karna.	{ ../expChar }	Example: “E” (1.2E3) or “^” (1.2^3).
+
+textStandardGroupingSeparator	::Number grouping separator runtime se lena.	{ ../grpSep }	Example: , (1,000) or . (1.000).
+
+
+
+---
+
+🧠 Summary
+
+Type	Description
+
+Static DFDL	Properties fixed in schema
+Expression-based DFDL	Properties change dynamically based on message data
+Language	XPath 2.0 subset inside {}
+Purpose	Dynamic, self-describing formats handle karna (smart parsing/serialization)
+
+
+
+---
+
+👉 One-line Recap:
+
+> DFDL Expressions = {XPath} logic jo har property ko runtime data-driven bana deta hai ⚡
