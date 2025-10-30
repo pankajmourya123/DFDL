@@ -42,3 +42,9 @@ ESQL (PARSE / ASBITSTREAM) → Tum manually CCSID / ENCODING pass kar sakte ho.
 👉 Simple Line Summary:
 
 > encoding, byteOrder, aur binaryFloatRep = bridge between transport layer & DFDL schema, automatically handle hota hai data interpretation ke liye.
+
+Parsing (Input → Tree)	DFDL bitstream ko padhta hai aur schema ke rules (byteOrder, encoding, etc.) ke hisaab se logical tree banata hai.	Bytes: 78 56 34 12 + dfdl:byteOrder="littleEndian" → Parsed value = 305419896 (0x12345678)
+Serialization (Tree → Output)	DFDL logical tree se value uthata hai aur schema ke rules ke hisaab se firse bitstream banaata hai.	Tree value = 305419896 + byteOrder="littleEndian" → Bytes: 78 56 34 12
+
+
+DFDL schema ke byteOrder, encoding, aur binaryFloatRep use karke data ko 2 direction me translate karta hai — bytes ↔ structured values automatically
