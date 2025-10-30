@@ -48,3 +48,7 @@ Serialization (Tree → Output)	DFDL logical tree se value uthata hai aur schema
 
 
 DFDL schema ke byteOrder, encoding, aur binaryFloatRep use karke data ko 2 direction me translate karta hai — bytes ↔ structured values automatically
+
+DFDL ka funda hai “jo bytes aaye, usko schema ke hisaab se samajh ke tree me daalna”
+aur
+“jo tree me value hai, usko schema ke hisaab se wapas bytes banana”.
