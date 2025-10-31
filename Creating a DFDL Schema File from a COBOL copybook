@@ -1,0 +1,101 @@
+
+IBM Integration Bus (IIB) / ACE me DFDL ka use hota hai to define non-XML data structures (text, binary, COBOL, etc.).
+Agar tumhare paas ek COBOL copybook hai (jo ek fixed data format describe karti hai), to tum ise DFDL schema me convert kar sakte ho using the COBOL importer wizard.
+
+Isse fayda ye hota hai:
+
+Tumhe manually DFDL likhne ki zarurat nahi.
+
+COBOL data ko IIB message flow me as structured message treat kar sakte ho.
+
+Reusability aur consistency maintain hoti hai.
+
+
+
+---
+
+⚙️ Before You Begin
+
+🧩 Linux ke liye Requirement:
+
+Agar tum Linux system par ho, to COBOL importer ko kuch 32-bit system libraries chahiye hoti hain.
+Ye libraries kuch distributions me default install nahi hoti, jaise:
+
+Red Hat Enterprise Linux V6 (64-bit)
+
+Ubuntu 10.4+ (32-bit aur 64-bit)
+
+
+👉 IBM ne ek page diya hai jahan bataya gaya hai ki kaunsi libraries install karni hain:
+https://www.ibm.com/support/docview.wss?uid=swg21512074
+
+
+---
+
+🧾 About This Task
+
+COBOL importer wizard do main cheezein karta hai:
+
+1. Importing a COBOL copybook or program
+
+Ye copybook ek structure define karti hai — jaise record layouts, field names, field types, etc.
+
+❗ Important rules:
+
+Copybook me COBOL reserved keywords field names ke liye use nahi hone chahiye.
+
+File ka name 60 characters se zyada nahi hona chahiye, warna importer fail hoga with error:
+👉 IWAA0652E: File name cannot be longer than 60 characters
+
+
+
+
+2. Importing or replacing IBM-supplied DFDL COBOL format schema
+
+Matlab tum IBM ke prebuilt COBOL DFDL base format ko apne data structure ke sath use kar sakte ho ya replace kar sakte ho.
+
+
+
+
+
+---
+
+🪄 Procedure (Steps to Create DFDL from COBOL)
+
+1. Open IIB Toolkit
+
+
+2. Click:
+File > New > Other > Message Model
+
+
+3. Select: COBOL
+
+
+4. Follow the wizard:
+
+Select your COBOL copybook file (.cpy)
+
+Configure DFDL namespace, element names, and encoding
+
+Finish the wizard
+
+
+
+
+👉 IIB automatically DFDL schema file generate karega jisse tum message parsing me use kar sakte ho.
+
+
+
+📝 Short Notes (for Quick Revision)
+
+🔹 Topic	🔹 Summary
+
+Purpose	COBOL copybook → DFDL schema conversion
+Use Case	Parse or validate COBOL-formatted data in IIB
+Tool Used	COBOL Importer Wizard
+Path	File → New → Other → Message Model → COBOL
+Requirements	32-bit libraries on Linux
+Restrictions	- No reserved COBOL keywords as field names<br>- File name ≤ 60 characters
+Output	DFDL schema file (.xsd)
+Error Example	IWAA0652E: File name cannot be longer than 60 characters
