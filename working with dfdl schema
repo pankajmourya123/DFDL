@@ -11,3 +11,20 @@
 5. **Test** – Validate parsing/serialization with sample data.
 6. **Delete** – Remove unused DFDL files.
 
+Opening an Existing DFDL Schema File (IBM IIB)
+
+Used to view or edit an already created DFDL schema file (.xsd extension).
+
+Steps:
+
+1. In Integration Toolkit, right-click on the DFDL schema file (*.xsd).
+
+
+2. Select “Open” → opens in DFDL Schema Editor.
+
+
+3. View or edit elements, delimiters, and properties as needed.
+
+
+
+⚠️ Note: Always use the DFDL Schema Editor, not any other text/XML editor — because only this editor validates DFDL-specific rules properly.
