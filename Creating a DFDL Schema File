@@ -1,0 +1,87 @@
+
+
+🧩 Creating a DFDL Schema File (IBM IIB)
+
+🔹 Purpose:
+
+DFDL schema file is used to model text and binary formatted data (like CSV, COBOL, or C data) for integration message parsing.
+
+
+---
+
+🧠 DFDL can model these formats:
+
+Format Type	Description
+
+CSV (Comma Separated Value)	For delimited data with separators like , or `
+Record-Oriented Text	For line-by-line or fixed record files
+Custom Text/Binary	For proprietary or legacy formats
+COBOL Data Structures	You can import COBOL copybooks and auto-generate schema
+C Data Structures	You can import from C header files (.h) to generate schema (some restrictions apply)
+
+
+
+---
+
+⚙️ Creating via New Message Model Wizard:
+
+Steps:
+
+1. Open New Message Model Wizard:
+
+From Navigator → New → Message Model..., or
+
+Right-click the navigator white space → New → Message Model...
+
+
+
+2. Choose Data Format Type:
+Select whether you’re modeling CSV, Record-Oriented, COBOL, C, or Custom Binary/Text.
+
+
+3. Step through the wizard panels:
+Fill in details (name, location, format options).
+
+
+4. Click Finish:
+DFDL schema file (.xsd) is created.
+
+
+5. Open automatically in DFDL Schema Editor to view/edit/test it.
+
+
+
+
+---
+
+🔜 Next Steps:
+
+Edit properties in DFDL editor.
+
+Configure object-level settings.
+
+Test schema with sample input data.
+
+
+
+---
+
+🧾 Short Notes (Final Corrected Version):
+
+Step	Description
+
+1️⃣	Open New Message Model Wizard
+2️⃣	Select format → CSV / Record / Custom / COBOL / C Structure
+3️⃣	Fill details → Next → Finish
+4️⃣	Schema (.xsd) created and opened in DFDL Editor
+5️⃣	Next → Edit / Configure / Test schema
+
+
+📅 Last Updated: June 21, 2023 — IBM Integration Bus v10.0.0.26
+
+
+---
+
+💡 Shortcut Line to Remember:
+
+> “Wizard kholo → Format choose karo (CSV / COBOL / C) → Finish → Edit in DFDL Editor.
