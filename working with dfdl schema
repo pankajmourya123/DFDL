@@ -1,0 +1,13 @@
+### Working with DFDL Schema Files (IBM IIB)
+
+- DFDL schemas (.dfdlxsd) describe non-XML data formats like CSV, binary, or COBOL.
+- Used in IBM Integration Bus / ACE for parsing and writing structured data.
+
+#### Key Tasks:
+1. **Open** – View or edit existing schema.
+2. **Create** – Build a new schema to describe data format.
+3. **Import** – Bring external DFDL files into workspace.
+4. **Edit** – Modify properties (delimiters, lengths, encodings, etc.).
+5. **Test** – Validate parsing/serialization with sample data.
+6. **Delete** – Remove unused DFDL files.
+
